@@ -21,4 +21,7 @@ yarn web
 yarn android
 yarn ios
 
+//instalar react native element
+yarn add react-native-elements
+
 
