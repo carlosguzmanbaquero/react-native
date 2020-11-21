@@ -1,0 +1,24 @@
+//instalar react native con node
+npm install create-react-native-app -g
+
+//instalar manejador de paquetes
+npm install -g yarn
+
+//instalar react native con yarn 
+yarn global add create-react-native-app@1.0.0
+
+//listar ayudas
+create-react-native-app --help
+
+//crear una aplicacion de react native
+create-react-native-app name
+
+//arrancar app
+yarn start
+npm start
+
+yarn web
+yarn android
+yarn ios
+
+
