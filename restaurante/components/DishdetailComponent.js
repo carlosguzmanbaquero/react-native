@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Text, View, ScrollView, FlatList } from 'react-native';
+import { Card, Icon } from 'react-native-elements';
 import { DISHES } from '../shared/dishes';
+import { COMMENTS } from '../shared/comments';
 
 function RenderDish(props) {
 
@@ -15,7 +16,15 @@ function RenderDish(props) {
                     <Card.Image source={{ uri:'https://i0.wp.com/globomiami.com/wp-content/uploads/2020/09/avatar-publicity_still-h_2019-compressed.jpg'}} />
                     <Text style={{margin: 10}}>
                         {dish.description}
-                    </Text>                
+                    </Text>
+                    <Icon
+                        raised
+                        reverse
+                        name={ props.favorite ? 'heart' : 'heart-o'}
+                        type='font-awesome'
+                        color='#f50'
+                        onPress={() => /*props.favorite ? console.log('Already favorite',props.favorite) :*/ props.onPress()}
+                    />             
                 </Card>
             );
         }
@@ -24,12 +33,41 @@ function RenderDish(props) {
         }
 }
 
+function RenderComments(props) {
+
+    const comments = props.comments;
+            
+    const renderCommentItem = ({item, index}) => {
+        
+        return (
+            <View key={index} style={{margin: 10}}>
+                <Text style={{fontSize: 14}}>{item.comment}</Text>
+                <Text style={{fontSize: 12}}>{item.rating} Stars</Text>
+                <Text style={{fontSize: 12}}>{'-- ' + item.author + ', ' + item.date} </Text>
+            </View>
+        );
+    };
+    
+    return (
+        <Card >
+            <Card.Title>Comments</Card.Title>
+            <FlatList vertical
+                data={comments}
+                renderItem={renderCommentItem}
+                keyExtractor={item => item.id.toString()}
+                />
+        </Card>
+    );
+}
+
 class DishDetail extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            dishes: DISHES
+            dishes: DISHES,
+            comments: COMMENTS,
+            favorites: []
         };
     }
 
@@ -37,10 +75,22 @@ class DishDetail extends Component {
         title: 'Dish Details'
     };
 
+    markFavorite(dishId) {
+        this.setState({favorites: this.state.favorites.concat(dishId)});
+    }
+
     render() {
         const dishId = this.props.route.params.dishId;
+        
         return(
-            <RenderDish dish={this.state.dishes[+dishId]} />
+            
+            <ScrollView vertical>
+                <RenderDish dish={this.state.dishes[+dishId]} 
+                 favorite={this.state.favorites.some(el => el === dishId)}
+                 onPress={() => this.markFavorite(dishId)} />
+                <RenderComments comments={this.state.comments.filter((comment) => comment.dishId === dishId)} />
+            </ScrollView>
+                
         );
     }
 

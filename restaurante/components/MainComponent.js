@@ -179,7 +179,7 @@ const CustomDrawerContentComponent = (props) => {
                 <Image source={require('./images/logo.png')} style={styles.drawerImage} />
                 </View>
                 <View style={{flex: 2}}>
-                <Text style={styles.drawerHeaderText}>Restaureante</Text>
+                <Text style={styles.drawerHeaderText}>Restaurante</Text>
                 </View>
             </View>
             <DrawerItemList {...props}/>
