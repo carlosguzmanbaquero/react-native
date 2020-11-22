@@ -9,7 +9,7 @@ function RenderDish(props) {
     
         if (dish != null) {
             return(
-                <Card>
+                <Card >
                     <Card.Title>{dish.name}</Card.Title>
                     <Card.Divider/>
                     <Card.Image source={{ uri:'https://i0.wp.com/globomiami.com/wp-content/uploads/2020/09/avatar-publicity_still-h_2019-compressed.jpg'}} />
