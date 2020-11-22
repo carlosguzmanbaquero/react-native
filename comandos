@@ -32,6 +32,13 @@ yarn add react-navigation@2.0.1
 -expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
 -npm install @react-navigation/stack
 
+//instalar navegator stack
+yarn add @react-navigation/stack
 
+//instalar navegator drawer
+yarn add @react-navigation/drawer
+
+//instalar navegator tab
+yarn add @react-navigation/bottom-tabs
 
 
