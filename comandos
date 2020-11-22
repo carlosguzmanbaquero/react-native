@@ -24,4 +24,7 @@ yarn ios
 //instalar react native element
 yarn add react-native-elements
 
+//instalar react navigation
+yarn add react-navigation@2.0.1
+
 
