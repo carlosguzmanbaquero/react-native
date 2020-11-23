@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
-import { View, FlatList, Text, ScrollView } from 'react-native';
+import { FlatList, Text, ScrollView } from 'react-native';
 import { ListItem, Avatar, Card } from 'react-native-elements';
-import { LEADERS } from '../shared/leaders';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+
+const mapStateToProps = state => {
+    return {
+      leaders: state.leaders
+    }
+}
 
 function History() {
     return(
@@ -30,11 +37,11 @@ function Leadership(props) {
 
 function Leaders(props) {
     
-    const renderLeaders = ({item, index}) => {
+    const renderLeaders = ({item, index}) => {debugger;
 
         return (    
             <ListItem key={index}>
-                <Avatar rounded source={{ uri:'https://i0.wp.com/globomiami.com/wp-content/uploads/2020/09/avatar-publicity_still-h_2019-compressed.jpg'}} />
+                <Avatar rounded source={{ uri:baseUrl + item.image}} />
                 <ListItem.Content>
                     <ListItem.Title>{item.name}</ListItem.Title>
                     <ListItem.Subtitle>{item.description}</ListItem.Subtitle>
@@ -55,26 +62,19 @@ function Leaders(props) {
 
 class About extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            leaders: LEADERS
-        };
-    }
-
     static navigationOptions = {
         title: 'About Us'
     };
-
+    debugger;
     render() {
        return (
         <ScrollView>
             <History/>
-            <Leadership leaders={this.state.leaders}/>
+            <Leadership leaders={this.props.leaders.leaders}/>
         </ScrollView>
        );
     }
 }
 
 
-export default About;
+export default connect(mapStateToProps)(About);
