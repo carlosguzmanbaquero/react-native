@@ -47,4 +47,7 @@ yarn add react-redux@5.0.7
 yarn add redux-thunk@2.2.0
 yarn add redux-logger@3.0.6
 
+//instalar react-devtools
+yarn global add react-devtools@3.2.3
+
 
