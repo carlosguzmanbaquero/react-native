@@ -52,5 +52,9 @@ yarn global add react-devtools@3.2.3
 
 //instalar react-native-datepicker
 yarn add react-native-datepicker@1.7.2
+yarn add @react-native-community/datetimepicker
+
+//instalar moment
+yarn add moment
 
 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, Modal } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, Modal, TouchableOpacity } from 'react-native';
+import { Card, Icon } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import DatePicker from 'react-native-datepicker';
+import Moment from 'moment';
 
 class Reservation extends Component {
 
@@ -12,8 +12,10 @@ class Reservation extends Component {
         this.state = {
             guests: 1,
             smoking: false,
-            date: '',
-            showModal: false
+            date: new Date(),
+            showModal: false,
+            show: false,
+            mode: 'date'
         }
     }
 
@@ -25,7 +27,7 @@ class Reservation extends Component {
         this.setState({showModal: !this.state.showModal});
     }
 
-    handleReservation() {
+    handleReservation() {debugger;
         console.log(JSON.stringify(this.state));
         this.toggleModal();
     }
@@ -34,12 +36,16 @@ class Reservation extends Component {
         this.setState({
             guests: 1,
             smoking: false,
-            date: '',
-            showModal: false
+            date: new Date(),
+            showModal: false,
+            show: false,
+            mode: 'date'
         });
     }
     
     render() {
+  
+
         return(
             <ScrollView>
                 <Card>
@@ -66,33 +72,45 @@ class Reservation extends Component {
                         onValueChange={(value) => this.setState({smoking: value})}>
                     </Switch>
                     </View>
+                    
                     <View style={styles.formRow}>
-                    <Text style={styles.formLabel}>Date and Time</Text>
-                    <DatePicker
-                        style={{flex: 2, marginRight: 20}}
-                        date={this.state.date}
-                        format=''
-                        mode="datetime"
-                        placeholder="select date and Time"
-                        minDate="2020-11-24"
-                        confirmBtnText="Confirm"
-                        cancelBtnText="Cancel"
-                        customStyles={{
-                        dateIcon: {
-                            position: 'absolute',
-                            left: 0,
-                            top: 4,
-                            marginLeft: 0
-                        },
-                        dateInput: {
-                            marginLeft: 36
-                        }
-                        // ... You can check the source to find the other keys. 
-                        }}
-                        onDateChange={(date) => {debugger;this.setState({date: date})}}
-                    />
-
+                        <Text style={styles.formLabel}>Date and Time</Text>
+                        <TouchableOpacity style={styles.formItem}
+                                style={{
+                                    padding: 7,
+                                    borderColor: '#512DA8',
+                                    borderWidth: 2,
+                                    flexDirection: "row"
+                                }}
+                                onPress={() => this.setState({ show: true, mode: 'date' })}>
+                            <Icon type='font-awesome' name='calendar' color='#512DA8' />
+                            <Text >
+                                {' ' + Moment(this.state.date).format('DD-MMM-YYYY h:mm A') }
+                            </Text>
+                        </TouchableOpacity>
+                        {/* Date Time Picker */}
+                        {this.state.show && (
+                            <DateTimePicker
+                                value={this.state.date}
+                                mode={this.state.mode}
+                                minimumDate={new Date()}
+                                minuteInterval={30}
+                                onChange={(event, date) => {
+                                    if (date === undefined) {
+                                        this.setState({ show: false });
+                                    }
+                                    else {
+                                        this.setState({
+                                            show: this.state.mode === "time" ? false : true,
+                                            mode: "time",
+                                            date: new Date(date)
+                                        });
+                                    }
+                                }}
+                            />
+                        )}
                     </View>
+                    
                     <View style={styles.formRow}>
                     <Button
                         onPress={() => this.handleReservation()}
@@ -111,7 +129,7 @@ class Reservation extends Component {
                         <Text style = {styles.modalTitle}>Your Reservation</Text>
                         <Text style = {styles.modalText}>Number of Guests: {this.state.guests}</Text>
                         <Text style = {styles.modalText}>Smoking?: {this.state.smoking ? 'Yes' : 'No'}</Text>
-                        <Text style = {styles.modalText}>Date and Time: {this.state.date}</Text>
+                        <Text style = {styles.modalText}>Date and Time: {Moment(new Date(this.state.date)).format('DD-MMM-YYYY h:mm A')}</Text>
                         
                         <Button 
                             onPress = {() =>{this.toggleModal(); this.resetForm();}}
