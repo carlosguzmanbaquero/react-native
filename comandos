@@ -57,4 +57,5 @@ yarn add @react-native-community/datetimepicker
 //instalar moment
 yarn add moment
 
-
+//instalar swipeout
+yarn add react-native-swipeout@2.3.3
