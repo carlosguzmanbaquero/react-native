@@ -4,6 +4,7 @@ import { Card, Icon, Rating, Input } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { postFavorite } from '../redux/ActionCreators';
+import { postComment } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
@@ -14,8 +15,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    postFavorite: (dishId) => dispatch(postFavorite(dishId))
-})
+    postFavorite: (dishId) => dispatch(postFavorite(dishId)),
+    postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment))
+});
 
 function RenderDish(props) {
 
@@ -66,7 +68,11 @@ function RenderComments(props) {
         return (
             <View key={index} style={{margin: 10}}>
                 <Text style={{fontSize: 14}}>{item.comment}</Text>
-                <Text style={{fontSize: 12}}>{item.rating} Stars</Text>
+                <View style={styles.leftContainer}>
+                <Rating imageSize={12}
+                    readonly='true'
+                    startingValue = {item.rating}/>
+                </View>
                 <Text style={{fontSize: 12}}>{'-- ' + item.author + ', ' + item.date} </Text>
             </View>
         );
@@ -91,7 +97,7 @@ class DishDetail extends Component {
         this.state = {
             favorites: [],
             showModal: false,
-            rating: 0,
+            rating: 1,
             author: '',
             comment: ''
         };
@@ -112,6 +118,7 @@ class DishDetail extends Component {
 
     handleComment() {
         console.log(JSON.stringify(this.state));
+        this.props.postComment(this.props.route.params.dishId, this.state.rating, this.state.author, this.state.comment);
         this.toggleModal();
         this.resetForm();
     }
@@ -119,7 +126,7 @@ class DishDetail extends Component {
     resetForm() {
         this.setState({
             showModal: false,
-            rating: 0,
+            rating: 1,
             author: '',
             comment: ''
         });
@@ -193,6 +200,11 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row'
     },
+    leftContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start'
+      },
 
   });
 
