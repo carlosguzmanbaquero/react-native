@@ -59,3 +59,7 @@ yarn add moment
 
 //instalar swipeout
 yarn add react-native-swipeout@2.3.3
+
+//instalar animatable
+yarn add react-native-animatable@1.2.4
+
