@@ -63,3 +63,7 @@ yarn add react-native-swipeout@2.3.3
 //instalar animatable
 yarn add react-native-animatable@1.2.4
 
+//instalar redux-persist
+yarn add redux-persist@5.9.1
+
+
