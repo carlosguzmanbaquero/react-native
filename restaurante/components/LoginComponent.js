@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 import { Card, Icon, Input, CheckBox } from 'react-native-elements';
-//import { SecureStore } from 'expo';
 import * as SecureStore from 'expo-secure-store';
 
 class Login extends Component {
@@ -16,86 +15,34 @@ class Login extends Component {
         }
     }
 
-    componentWillMount = async () => { 
-        await SecureStore.getItemAsync('userinfo')
-    }
-    
-    //componentDidMount() {
-        /*
+    componentDidMount() {
         SecureStore.getItemAsync('userinfo')
             .then((userdata) => {
+                console.log('a: ',JSON.stringify(userdata));
                 let userinfo = JSON.parse(userdata);
+                console.log(JSON.stringify(userinfo));
                 if (userinfo) {
                     this.setState({username: userinfo.username});
                     this.setState({password: userinfo.password});
                     this.setState({remember: true})
                 }
-            })*/
-           // this._retrieveData();
-           
-    //}
+            })
+    }
 
-    _retrieveData = async () => {
-        try {
-          const userdata = await AsyncStorage.getItem('userinfo');
-          if (userdata !== null) {
-            let userinfo = JSON.parse(userdata);
-                if (userinfo) {
-                    this.setState({username: userinfo.username});
-                    this.setState({password: userinfo.password});
-                    this.setState({remember: true})
-                }
-          }
-        } catch (error) {
-          // Error retrieving data
-        }
-      };
 
     static navigationOptions = {
         title: 'Login',
     };
-
-    //handleLogin() {
-     //   console.log(JSON.stringify(this.state));
-     //   if (this.state.remember)
-            //this._storeData('userinfo', JSON.stringify({username: this.state.username, password: this.state.password}),'Could not save user info');
-            /*SecureStore.setItemAsync('userinfo', JSON.stringify({username: this.state.username, password: this.state.password}))
-                .catch((error) => console.log('Could not save user info', error));*/
-    //    else
-            //this._storeData('userinfo', '','Could not delete user info');
-            /*SecureStore.deleteItemAsync('userinfo')
-                .catch((error) => console.log('Could not delete user info', error));*/
-
-   // }
-
-   handleLogin= async () => {
-
-        console.log(JSON.stringify(this.state));
-        
-        if (this.state.remember)
-        
-        await SecureStore.setItemAsync('userinfo', JSON.stringify({username: this.state.username, password: this.state.password}))
-        
-        .catch((error) => console.log('Could not save user info', error));
-        
-        else
-        
-        await SecureStore.deleteItemAsync('userinfo')
-        
-        .catch((error) => console.log('Could not delete user info', error));
     
+    handleLogin() {
+        console.log(JSON.stringify(this.state));
+        if (this.state.remember)
+            SecureStore.setItemAsync('userinfo', JSON.stringify({username: this.state.username, password: this.state.password}))
+                .catch((error) => console.log('Could not save user info', error));
+        else
+            SecureStore.deleteItemAsync('userinfo')
+                .catch((error) => console.log('Could not delete user info', error));
     }
-
-    _storeData = async (key, value, messageError) => {
-        try {
-          await AsyncStorage.setItem(
-            key,
-            value
-          );
-        } catch (error) {
-            console.log(messageError, error)
-        }
-    };
 
     render() {
         return (
@@ -136,13 +83,13 @@ class Login extends Component {
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
-        margin: 20,
+        margin: 10,
     },
     formInput: {
-        margin: 40
+        margin: 10
     },
     formCheckbox: {
-        margin: 40,
+        margin: 20,
         backgroundColor: null
     },
     formButton: {
