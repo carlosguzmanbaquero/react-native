@@ -72,6 +72,9 @@ expo install expo-secure-store
 //instalar permisos
 expo install expo-permissions
 
+//instalar notificaciones
+expo install expo-notifications
+
 //instalar expo-mail-composer
 expo install expo-mail-composer
 
@@ -86,4 +89,7 @@ expo install expo-image-manipulator
 
 //instalar netinfo
 yarn add @react-native-community/netinfo
+
+//instalar expo-calendar
+expo install expo-calendar
 

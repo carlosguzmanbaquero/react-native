@@ -4,8 +4,10 @@ import { Card, Icon } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Moment from 'moment';
 import * as Animatable from 'react-native-animatable';
+//import * as Notifications from 'expo-notifications'
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
+import * as Calendar from 'expo-calendar';
 
 class Reservation extends Component {
 
@@ -41,6 +43,15 @@ class Reservation extends Component {
         return permission;
     }
 
+    async obtainCalendarPermission(){
+        const { status } = await Calendar.requestCalendarPermissionsAsync();
+        if (status === 'granted') {
+        const calendars = await Calendar.getCalendarsAsync();
+        console.log('Here are all your calendars:');
+        console.log({ calendars });
+        }
+    }
+
     async presentLocalNotification(date) {
         
         await this.obtainNotificationPermission();
@@ -58,6 +69,36 @@ class Reservation extends Component {
             }
         });
     }
+/*
+    async presentLocalNotification2(date) {
+        await this.obtainNotificationPermission();
+        // Prepare the notification channel
+        Notifications.setNotificationChannelAsync('restaurante', {
+            name: 'restaurante',
+            importance: Notifications.AndroidImportance.HIGH,
+        });
+
+        // Eg. schedule the notification
+        Notifications.scheduleNotificationAsync({
+            content: {
+            title: 'Your Reservation',
+            body: 'Reservation for '+ date + ' requested',
+            //sound: 'email-sound.wav', // <- for Android below 8.0
+            },
+            ios: {
+                sound: true
+            },
+            android: {
+                sound: true,
+                vibrate: true,
+                color: '#512DA8'
+            },
+            trigger: {
+            seconds: 2,
+            channelId: 'restaurante', // <- for Android 8.0+, see definition above
+            },
+        });
+    }*/
 
     handleReservation() {
         console.log(JSON.stringify(this.state));
@@ -68,11 +109,55 @@ class Reservation extends Component {
             [
             {text: 'Cancel', onPress: () => {this.resetForm()}, style: 'cancel'},
             {text: 'OK', onPress: () =>  {
+                //envia una notificacion de la reserva
                 this.presentLocalNotification(this.state.date);
+
+                //Agrega al calendario el evento
+                this.addReservationToCalendar(this.state.date);
+
                 this.resetForm() }}
             ],
             { cancelable: false }
         );
+    }
+
+    addReservationToCalendar(date){
+        this.createCalendar(date);
+    }
+
+    async getDefaultCalendarSource() {
+        const calendars = await Calendar.getCalendarsAsync();
+        const defaultCalendars = calendars.filter(each => each.source.name === 'Default');
+        return defaultCalendars[0].source;
+    }
+
+    async createCalendar(date) {
+        await this.obtainCalendarPermission();
+        
+        //suma dos horas a la fecha
+        fechaFin = new Date(date);
+		fechaFin.setHours(fechaFin.getHours()+2);
+
+        const defaultCalendarSource =
+            Platform.OS === 'ios'
+            ? await getDefaultCalendarSource()
+            : { isLocalAccount: true, name: 'Con Fusion' };
+
+        const newCalendarID = await Calendar.createCalendarAsync({
+            title: 'Con Fusion Table Reservation',
+            color: 'blue',
+            entityType: Calendar.EntityTypes.EVENT,
+            sourceId: defaultCalendarSource.id,
+            source: defaultCalendarSource,
+            name: 'internalCalendarName',
+            ownerAccount: 'personal',
+            accessLevel: Calendar.CalendarAccessLevel.OWNER,
+            startDate: date,
+            endDate: fechaFin,
+            timeZone: 'Asia/Hong_Kong',
+            location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
+        });
+        console.log(`Your new calendar ID is: ${newCalendarID}`);
     }
 
     resetForm() {
