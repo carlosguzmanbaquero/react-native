@@ -102,3 +102,9 @@ expo install expo-calendar
 expo build:android
 expo build:ios
 
+//Ejecting for Native Development
+yarn run eject
+or
+npm run eject
+
+exp start
