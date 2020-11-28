@@ -1,3 +1,8 @@
+//instalar expo-cli
+npm install --global expo-cli
+
+yarn global add exp@54.0.1
+
 //instalar react native con node
 npm install create-react-native-app -g
 
@@ -92,4 +97,8 @@ yarn add @react-native-community/netinfo
 
 //instalar expo-calendar
 expo install expo-calendar
+
+//realizar build
+expo build:android
+expo build:ios
 

@@ -3,10 +3,17 @@
   "displayName": "restaurante",
   "expo": {
     "name": "restaurante",
+    "icon": "./components/images/icon.png",
     "slug": "restaurante",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "ios": {
+      "bundleIdentifier": "com.restaurante"
+    },
+    "android": {
+      "package": "com.restaurante"
+    }
   }
 }

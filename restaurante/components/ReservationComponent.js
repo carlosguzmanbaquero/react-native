@@ -141,10 +141,10 @@ class Reservation extends Component {
         const defaultCalendarSource =
             Platform.OS === 'ios'
             ? await getDefaultCalendarSource()
-            : { isLocalAccount: true, name: 'Con Fusion' };
+            : { isLocalAccount: true, name: 'Restaurante' };
 
         const newCalendarID = await Calendar.createCalendarAsync({
-            title: 'Con Fusion Table Reservation',
+            title: 'Reserva mesa restaurante',
             color: 'blue',
             entityType: Calendar.EntityTypes.EVENT,
             sourceId: defaultCalendarSource.id,
@@ -154,11 +154,44 @@ class Reservation extends Component {
             accessLevel: Calendar.CalendarAccessLevel.OWNER,
             startDate: date,
             endDate: fechaFin,
-            timeZone: 'Asia/Hong_Kong',
-            location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
+            timeZone: 'Colombia/Valle del cauca',
+            location: 'Calle 5 con 5'
         });
         console.log(`Your new calendar ID is: ${newCalendarID}`);
     }
+
+    /*
+    handleReservationToCalendar = async ( date ) => {
+        await this.obtainCalenderPermission()
+
+        const defaultCalendarSource = Platform.OS === 'ios' ?
+            await getDefaultCalendarSource()
+            : { isLocalAccount: true, name: 'Expo Calendar' };
+
+        const tempDate = Date.parse(date)
+        const startDate = new Date(tempDate)
+        const endDate = new Date(tempDate + 2 * 60 * 60 * 1000)
+
+        const calendarID = await Calendar.createCalendarAsync({
+            title: 'Expo Calendar',
+            color: 'blue',
+            entityType: Calendar.EntityTypes.EVENT,
+            sourceId: defaultCalendarSource.id,
+            source: defaultCalendarSource,
+            name: 'internalCalendarName',
+            ownerAccount: 'personal',
+            accessLevel: Calendar.CalendarAccessLevel.OWNER,
+        })
+
+        await Calendar.createEventAsync(calendarID, {
+            title: 'Con Fusion Table Reservation',
+            startDate: startDate,
+            endDate: endDate,
+            timeZone: 'Asia/Hong_Kong',
+            location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
+        })
+    }
+    */
 
     resetForm() {
         this.setState({
