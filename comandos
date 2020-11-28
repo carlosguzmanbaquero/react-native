@@ -78,3 +78,10 @@ expo install expo-mail-composer
 //instalar expo-image-picker
 expo install expo-image-picker
 
+//instalar expo-asset
+expo install expo-asset
+
+//instalar expo-image-manipulator
+expo install expo-image-manipulator
+
+
