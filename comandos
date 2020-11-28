@@ -75,4 +75,6 @@ expo install expo-permissions
 //instalar expo-mail-composer
 expo install expo-mail-composer
 
+//instalar expo-image-picker
+expo install expo-image-picker
 
