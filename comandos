@@ -84,4 +84,6 @@ expo install expo-asset
 //instalar expo-image-manipulator
 expo install expo-image-manipulator
 
+//instalar netinfo
+yarn add @react-native-community/netinfo
 
