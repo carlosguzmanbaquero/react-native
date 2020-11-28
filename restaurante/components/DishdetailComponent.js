@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, FlatList, StyleSheet, Modal, Button, Alert, PanResponder } from 'react-native';
+import { Text, View, ScrollView, FlatList, StyleSheet, Modal, Button, Alert, PanResponder, Share } from 'react-native';
 import { Card, Icon, Rating, Input } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
@@ -67,45 +67,63 @@ function RenderDish(props) {
         }
     });
 
-    
-        if (dish != null) {
-            return(
-                <Animatable.View animation="fadeInDown" duration={2000} delay={1000} 
-                    {...panResponder.panHandlers} 
-                    ref={this.handleViewRef}>
-                    <Card >
-                        <Card.Title>{dish.name}</Card.Title>
-                        <Card.Divider/>
-                        <Card.Image source={{ uri: baseUrl + dish.image}} />
-                        <Text style={{margin: 10}}>
-                            {dish.description}
-                        </Text>
-                        <View style={styles.viewIcons}>
-                        <Icon
-                            raised
-                            reverse
-                            name={ props.favorite ? 'heart' : 'heart-o'}
-                            type='font-awesome'
-                            color='#f50'
-                            onPress={() => /*props.favorite ? console.log('Already favorite',props.favorite) :*/ props.onPress()}
-                        />
+    const shareDish = (title, message, url) => {
+        Share.share({
+            title: title,
+            message: title + ': ' + message + ' ' + url,
+            url: url
+        },{
+            dialogTitle: 'Share ' + title
+        })
+    }
 
-                        <Icon
-                            raised
-                            reverse
-                            name='pencil'
-                            type='font-awesome'
-                            color='#512DA8'
-                            onPress={() => /*props.favorite ? console.log('Already favorite',props.favorite) :*/ props.onPressComment()}
-                        />        
-                        </View>     
-                    </Card>
-                </Animatable.View>
-            );
-        }
-        else {
-            return(<View></View>);
-        }
+    if (dish != null) {
+        return(
+            <Animatable.View animation="fadeInDown" duration={2000} delay={1000} 
+                {...panResponder.panHandlers} 
+                ref={this.handleViewRef}>
+                <Card >
+                    <Card.Title>{dish.name}</Card.Title>
+                    <Card.Divider/>
+                    <Card.Image source={{ uri: baseUrl + dish.image}} />
+                    <Text style={{margin: 10}}>
+                        {dish.description}
+                    </Text>
+                    <View style={styles.viewIcons}>
+                    <Icon
+                        raised
+                        reverse
+                        name={ props.favorite ? 'heart' : 'heart-o'}
+                        type='font-awesome'
+                        color='#f50'
+                        onPress={() => /*props.favorite ? console.log('Already favorite',props.favorite) :*/ props.onPress()}
+                    />
+
+                    <Icon
+                        raised
+                        reverse
+                        name='pencil'
+                        type='font-awesome'
+                        color='#512DA8'
+                        onPress={() => /*props.favorite ? console.log('Already favorite',props.favorite) :*/ props.onPressComment()}
+                    />
+
+                     <Icon
+                        raised
+                        reverse
+                        name='share'
+                        type='font-awesome'
+                        color='#51D2A8'
+                        style={styles.cardItem}
+                        onPress={() => shareDish(dish.name, dish.description, baseUrl + dish.image)} />
+                    </View>     
+                </Card>
+            </Animatable.View>
+        );
+    }
+    else {
+        return(<View></View>);
+    }
 }
 
 function RenderComments(props) {

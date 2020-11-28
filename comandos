@@ -66,4 +66,13 @@ yarn add react-native-animatable@1.2.4
 //instalar redux-persist
 yarn add redux-persist@5.9.1
 
+//instalar expo-secure-store
+expo install expo-secure-store
+
+//instalar permisos
+expo install expo-permissions
+
+//instalar expo-mail-composer
+expo install expo-mail-composer
+
 
